@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from 'redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import checkStatusReducer from './categories/Categories';
 import bookReducer from './books/books';
 
