@@ -4,7 +4,7 @@
 
 # Project Description
 
-This project will lay foundations for your Bookstore website. You will create the React part of the app. You will also set up routing using React Router.
+In this step, you will configure your Redux Store and write actions and reducer for adding and removing books. NOTE: editing an existing book and updating the progress is not part of this step. Neither is the styling of the application's components but adding and removing actions need to be implemented.
 
 ## Built With
 
