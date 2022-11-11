@@ -1,53 +1,46 @@
-import { useState } from 'react';
+import './Book.css';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import { postBook } from '../redux/books/books';
+import { addBookThunk } from '../redux/books/books';
 
 const AddBook = () => {
-  const [form, setForm] = useState({
-    item_id: '',
-    title: '',
-    author: '',
-    category: 'Check',
-  });
-
-  const titleChange = (e) => {
-    setForm({
-      ...form,
-      title: e.target.value,
-    });
-  };
-
-  const authorChange = (e) => {
-    setForm({
-      ...form,
-      author: e.target.value,
-    });
-  };
-
   const dispatch = useDispatch();
+  const [bookInfo, setBookInfo] = useState({ title: '', author: '', category: '' });
 
-  const submitBook = (e) => {
+  const clickSubmit = (e) => {
     e.preventDefault();
-    const theBook = {
-      item_id: uuidv4(),
-      author: form.author,
-      title: form.title,
-      category: 'Check',
-    };
-    dispatch(postBook(theBook));
-    form.author = '';
-    form.title = '';
+    e.target.previousElementSibling.previousElementSibling.value = '';
+    e.target.previousElementSibling.previousElementSibling.previousElementSibling.value = '';
+    dispatch(addBookThunk(bookInfo));
+  };
+
+  const clickHandle = (e) => {
+    setBookInfo({
+      ...bookInfo,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
-    <div className="add_book">
-      <form onSubmit={(e) => submitBook(e)}>
-        <input className="author" placeholder="Author name" value={form.author} onChange={(e) => authorChange(e)} required />
-        <input className="title" placeholder="Book title" value={form.title} onChange={(e) => titleChange(e)} required />
-        <button className="add_button" type="submit">ADD BOOK</button>
+    <div className="FormDiv">
+      <header className="title">
+        <h3>ADD NEW BOOK</h3>
+      </header>
+      <form className="form">
+        <input className="inputs" onInput={clickHandle} type="text" name="title" placeholder="Book-title" />
+        <input className="inputs" onInput={clickHandle} type="text" name="author" placeholder="Author" />
+        <select className="options" onInput={clickHandle} name="category">
+          <option value="Epic">Epic</option>
+          <option value="Educational">Educational</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Science">Science</option>
+          <option value="Romance">Romance</option>
+        </select>
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+        <input className="submit-btn" onClick={clickSubmit} type="submit" value="ADD BOOK" />
       </form>
     </div>
+
   );
 };
 

@@ -1,112 +1,61 @@
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const FETCH_BOOKS_REQUEST = 'FETCH_BOOKS_REQUEST';
-const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
-const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
-const POST_BOOK = 'POST_BOOK';
-const REMOVE_BOOK = 'REMOVE_BOOK';
+/* eslint-disable no-console */
+// to add action types
+const ADD_BOOK = 'bookstore/books/ADD_BOOK';
+const REMOVE_BOOK = 'bookstore/books/REMOVE_BOOK';
+const READ_BOOKS = 'bookstore/books/READ_BOOK';
 
-const initialState = {
-  loading: false,
-  books: [],
-  error: '',
-};
+// to get the url
+const apiUrl = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/EHbt3DaBZgT4pqfPpOLB/books/';
 
-const fetchBooksRequest = () => ({
-  type: FETCH_BOOKS_REQUEST,
+// the get book action
+export const getBookThunk = createAsyncThunk(READ_BOOKS, async () => {
+  const response = await axios.get(`${apiUrl}`).catch((error) => { console.log(error); });
+  const res = response.data;
+  return Object.keys(res).map((key) => ({
+    id: key,
+    ...res[key][0],
+  }));
 });
 
-const fetchBooksSuccess = (listOfBooks) => ({
-  type: FETCH_BOOKS_SUCCESS,
-  payload: listOfBooks,
+// the add book action
+export const addBookThunk = createAsyncThunk(
+  ADD_BOOK,
+  async (item,
+    thunkAPI) => {
+    const book = {
+      item_id: uuidv4(),
+      title: item.title,
+      author: item.author,
+      category: item.category,
+    };
+    await axios.post(`${apiUrl}`, book)
+      .then(() => { thunkAPI.dispatch(getBookThunk()); })
+      .catch((error) => { console.log(error); });
+    return thunkAPI.getState().books;
+  },
+);
+
+// the remove book book action asynchronous
+export const removeBookThunk = createAsyncThunk(REMOVE_BOOK, async (bookId, thunkAPI) => {
+  await axios.delete(`${apiUrl}${bookId}`)
+    .then(() => { thunkAPI.dispatch(getBookThunk()); })
+    .catch((error) => { console.log(error); });
+  return thunkAPI.getState().books;
 });
 
-const fetchBooksFailure = (error) => ({
-  type: FETCH_BOOKS_FAILURE,
-  payload: error,
+// to add the slice
+const storeSlice = createSlice({
+  name: 'bookstore/books',
+  initialState: [],
+  extraReducers: {
+    [getBookThunk.fulfilled]: (state, action) => action.payload,
+    [addBookThunk.fulfilled]: (state, action) => action.payload,
+
+  },
 });
 
-const postBookSuccess = () => ({
-  type: POST_BOOK,
-});
-
-const removeBookSuccess = () => ({
-  type: REMOVE_BOOK,
-});
-
-export const getBooks = () => async (dispatch) => {
-  dispatch(fetchBooksRequest());
-  try {
-    const response = await axios.get('https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/z4okMrfIE4jolGHnWFCV/books');
-    const bookLists = response.data;
-    const books = Object.entries(bookLists).map(([key, value]) => ({
-      id: key,
-      title: value[0].title,
-      author: value[0].author,
-      genre: value[0].category,
-    }));
-    dispatch(fetchBooksSuccess(books));
-  } catch (error) {
-    dispatch(fetchBooksFailure(error.message));
-  }
-};
-
-export const postBook = (book) => async (dispatch) => {
-  dispatch(fetchBooksRequest());
-  try {
-    await axios.post('https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/z4okMrfIE4jolGHnWFCV/books', book);
-    dispatch(postBookSuccess());
-    dispatch(getBooks());
-  } catch (error) {
-    dispatch(fetchBooksFailure(error.message));
-  }
-};
-
-export const removeBook = (id) => async (dispatch) => {
-  dispatch(fetchBooksRequest());
-  try {
-    await axios.delete(`https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/z4okMrfIE4jolGHnWFCV/books/${id}`);
-    dispatch(removeBookSuccess());
-    dispatch(getBooks());
-  } catch (error) {
-    dispatch(fetchBooksFailure(error.message));
-  }
-};
-
-const bookReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_BOOKS_REQUEST: return {
-      ...state,
-      loading: true,
-    };
-
-    case FETCH_BOOKS_SUCCESS: return {
-      ...state,
-      loading: false,
-      books: [action.payload],
-      error: '',
-    };
-
-    case FETCH_BOOKS_FAILURE: return {
-      ...state,
-      books: [],
-      error: action.payload,
-    };
-
-    case REMOVE_BOOK: return {
-      ...state,
-      loading: false,
-      error: '',
-    };
-
-    case POST_BOOK: return {
-      ...state,
-      loading: false,
-      error: '',
-    };
-
-    default: return state;
-  }
-};
-
-export default bookReducer;
+export default storeSlice.reducer;

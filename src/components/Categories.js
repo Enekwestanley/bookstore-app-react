@@ -1,22 +1,15 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { checkStatus } from '../redux/categories/Categories';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkStatus } from '../redux/categories/categories';
 
-const Catagories = () => {
+const Categories = () => {
+  const state = useSelector((state) => state.categories);
   const dispatch = useDispatch();
-  const isAvailable = useSelector((state) => state.status);
-  const [display, SetDisplay] = useState(false);
-  const showStatus = () => {
-    dispatch(checkStatus());
-    SetDisplay(true);
-    setTimeout(() => SetDisplay(false), 4000);
-  };
   return (
-    <div className="catagories">
-      <button className="status_button" type="button" onClick={showStatus}>Check Status</button>
-      <h1>{display ? isAvailable : ''}</h1>
+    <div>
+      <p>{state}</p>
+      <button type="button" onClick={() => dispatch(checkStatus())}>Check status</button>
     </div>
   );
 };
-
-export default Catagories;
+export default Categories;
