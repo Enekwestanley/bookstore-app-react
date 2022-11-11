@@ -1,48 +1,61 @@
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+/* eslint-disable no-console */
+// to add action types
 const ADD_BOOK = 'bookstore/books/ADD_BOOK';
 const REMOVE_BOOK = 'bookstore/books/REMOVE_BOOK';
-const initialState = [
-  {
-    id: 1,
-    title: 'Book 1',
-    author: 'Author 1',
-  },
-  {
-    id: 2,
-    title: 'Book 2',
-    author: 'Author 2',
-  },
-];
+const READ_BOOKS = 'bookstore/books/READ_BOOK';
 
-export const addBook = (book) => ({
-  type: ADD_BOOK,
-  payload: book,
+// to get the url
+const apiUrl = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/EHbt3DaBZgT4pqfPpOLB/books/';
+
+// the get book action
+export const getBookThunk = createAsyncThunk(READ_BOOKS, async () => {
+  const response = await axios.get(`${apiUrl}`).catch((error) => { console.log(error); });
+  const res = response.data;
+  return Object.keys(res).map((key) => ({
+    id: key,
+    ...res[key][0],
+  }));
 });
 
-export const removeBook = (id) => ({
-  type: REMOVE_BOOK,
-  payload: id,
+// the add book action
+export const addBookThunk = createAsyncThunk(
+  ADD_BOOK,
+  async (item,
+    thunkAPI) => {
+    const book = {
+      item_id: uuidv4(),
+      title: item.title,
+      author: item.author,
+      category: item.category,
+    };
+    await axios.post(`${apiUrl}`, book)
+      .then(() => { thunkAPI.dispatch(getBookThunk()); })
+      .catch((error) => { console.log(error); });
+    return thunkAPI.getState().books;
+  },
+);
+
+// the remove book book action asynchronous
+export const removeBookThunk = createAsyncThunk(REMOVE_BOOK, async (bookId, thunkAPI) => {
+  await axios.delete(`${apiUrl}${bookId}`)
+    .then(() => { thunkAPI.dispatch(getBookThunk()); })
+    .catch((error) => { console.log(error); });
+  return thunkAPI.getState().books;
 });
 
-const bookReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_BOOK: return [
-      ...state,
-      {
-        id: state.length + 1,
-        title: action.payload.title,
-        author: action.payload.author,
-      },
-    ];
-    case REMOVE_BOOK: {
-      const newState = [...state];
-      newState.splice(action.payload - 1, 1);
-      for (let i = 0; i < newState.length; i += 1) {
-        newState[i].id = i + 1;
-      }
-      return newState;
-    }
-    default: return state;
-  }
-};
+// to add the slice
+const storeSlice = createSlice({
+  name: 'bookstore/books',
+  initialState: [],
+  extraReducers: {
+    [getBookThunk.fulfilled]: (state, action) => action.payload,
+    [addBookThunk.fulfilled]: (state, action) => action.payload,
 
-export default bookReducer;
+  },
+});
+
+export default storeSlice.reducer;
