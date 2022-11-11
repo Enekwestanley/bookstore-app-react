@@ -18,6 +18,8 @@ This is the last project of the Bookstore website. Now that all the functionalit
 
 ## Live Demo (if available)
 
+https://book-store-appp.netlify.app/
+
 ## Getting Started
 
 Clone the Repo and power on the live-server to view the App or click on the live demo link.
