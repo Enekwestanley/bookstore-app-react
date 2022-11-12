@@ -5,7 +5,7 @@
   justify-content: flex-start;
   width: 69.5rem;
   height: 5.938rem;
-  margin: 3rem 3rem 2.375rem 0rem;
+  margin: 3rem 3rem 2.375rem 0;
   padding: 1.438rem 6.188rem 1.688rem 6.25rem;
   background-color: #fff;
 }
@@ -42,7 +42,7 @@
 .menui {
   width: 3.688rem;
   height: 1rem;
-  font-family: Montserrat;
+  font-family: Montserrat, var(--font-family-common);
   font-size: 0.813rem;
   font-weight: normal;
   font-stretch: normal;
