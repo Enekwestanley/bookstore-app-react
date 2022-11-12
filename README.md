@@ -4,7 +4,7 @@
 
 # Project Description
 
-In this project, you will connect your React-Redux application to an existing API to create and remove books in a remote server.
+ Bookstore application built with REACT, JAVASCRIPT, and CSS. It lets you add and remove books.
 
 ## Built With
 
@@ -16,7 +16,7 @@ In this project, you will connect your React-Redux application to an existing AP
 - Frameworks
   None
 
-## [Live Demo](https://book-store-appp.netlify.app/) 
+  ![Screenshot from 2022-11-12 07-00-37](https://user-images.githubusercontent.com/47592971/201460212-5535c08a-aee2-4ac5-aca9-09cde4bd01d1.png)
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ This App was deployed using the github apps deployment. But you can also run "np
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/Kelvin-Ben/Javascript-Project).
+Feel free to check the [issues page](https://github.com/Enekwestanley/bookstore-app-react/issues).
 
 ## Show your support
 
@@ -59,3 +59,5 @@ Give a ⭐️ if you like this project!
 ## 📝 License
 
 This project is [MIT](./MIT.md) licensed.
+
+NOTE: we recommend using the MIT license - you can set it up quickly by using templates available on GitHub. You can also use any other license if you wish.

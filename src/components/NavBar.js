@@ -1,28 +1,23 @@
+import { NavLink } from 'react-router-dom';
 import React from 'react';
-import './NavBar.css';
-import { Link } from 'react-router-dom';
-import { IconContext } from 'react-icons';
-import { IoIosPerson } from 'react-icons/io';
 
-const NavBar = () => (
-  <nav className="menuNav">
-    <h1 className="menuTitle">
-      Bookstore
-      {' '}
-      <span>CMS</span>
-    </h1>
-    <div className="menuContainer">
-      <ul className="menuList">
-        <li><Link className="menui vertical" to="/">Books</Link></li>
-        <li><Link className="menui vertical end" to="/Categories">Categories</Link></li>
-      </ul>
-    </div>
-    <button className="headerbutton" type="button">
-      <IconContext.Provider value={{ color: 'blue', size: '1.3rem' }}>
-        <IoIosPerson />
-      </IconContext.Provider>
-    </button>
-  </nav>
-);
-
-export default NavBar;
+export default function NavBar() {
+  return (
+    <nav className="nav">
+      <div className="content">
+        <div className="left">
+          <h1 className="title">Bookstore CMS</h1>
+          <ul className="list">
+            <NavLink to="/" className="links">BOOKS</NavLink>
+            <NavLink to="/categories" className="links">CATEGORIES</NavLink>
+          </ul>
+        </div>
+        <button type="submit" className="btn--user">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="user">
+            <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  );
+}

@@ -1,22 +1,18 @@
-// action types
-const CHECK_STATUS = 'bookstore/books/CHECK_STATUS';
+const CHECK = 'bookstore/categories/CHECK';
 
-// to add initial state
-const initialState = [];
+const initialStateCategories = [];
 
-// to add action
-export const checkStatus = () => ({
-  type: CHECK_STATUS,
+// DEFINE CHECK CATEGORY ACTION
+export const categoryCheck = (category) => ({
+  type: CHECK,
+  category,
 });
 
-// to add reducer
-const checkStatusReducer = (state = initialState, action) => {
+export default function Categories(state = initialStateCategories, action) {
   switch (action.type) {
-    case CHECK_STATUS:
-      return 'Under construction';
+    case CHECK:
+      return window.alert('UNDER DEVELOPMENT');
     default:
       return state;
   }
-};
-
-export default checkStatusReducer;
+}
