@@ -4,7 +4,7 @@
 
 # Project Description
 
-In this project, you will connect your React-Redux application to an existing API to create and remove books in a remote server.
+ Bookstore application built with REACT, JAVASCRIPT, and CSS. It lets you add and remove books.
 
 ## Built With
 
@@ -16,33 +16,17 @@ In this project, you will connect your React-Redux application to an existing AP
 - Frameworks
   None
 
-## Live Demo (if available)
+  ![Screenshot from 2022-11-12 07-00-37](https://user-images.githubusercontent.com/47592971/201460212-5535c08a-aee2-4ac5-aca9-09cde4bd01d1.png)
 
 ## Getting Started
 
 Clone the Repo and power on the live-server to view the App or click on the live demo link.
 
-To get a local copy up and running follow these simple example steps.
+`git clone https://github.com/Enekwestanley/bookstore-app-react.git`
 
 ### Prerequisites
 
 Install a code editor and have a working browser.
-
-## Getting started
-
-To get a local copy up and running follow these simple example steps.
-
-1- Navigate to the button on the top right green "code" button.
-
-2- In the drop down menu choose "Download Zip" or clone it using git using the following command.
-
-$ https://github.com/Enekwestanley/math_magicians
-
-3- After extracting the files, you'll have my project on your local machine.
-
-4- to run the project you'll need to use the following command in your terminal to set up the node modules.
-
-$ npm run start
 
 ### Deployment
 
@@ -60,7 +44,7 @@ This App was deployed using the github apps deployment. But you can also run "np
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/Kelvin-Ben/Javascript-Project).
+Feel free to check the [issues page](https://github.com/Enekwestanley/bookstore-app-react/issues).
 
 ## Show your support
 
@@ -75,3 +59,5 @@ Give a ⭐️ if you like this project!
 ## 📝 License
 
 This project is [MIT](./MIT.md) licensed.
+
+NOTE: we recommend using the MIT license - you can set it up quickly by using templates available on GitHub. You can also use any other license if you wish.
